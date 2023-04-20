@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input
+{
+border:1px solid black;
+border-radius:5px;
+padding:5px 10px;
+}
+
+button{
+    border:1px solid black;
+margin:5px 10px;
+}
