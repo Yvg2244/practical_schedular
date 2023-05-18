@@ -15,33 +15,27 @@ const page = () => {
       return result;
     }, {});
   }
-  const shortenArr=(arr)=>{
-    var modifiedArr="";
-    var count=1
-    modifiedArr+=arr[0].toString()
-    while(count<arr.length-1)
-    {
-        
-        if(arr[count+1]==arr[count]+1)
-        {
-            count+=1
+  const shortenArr = (arr) => {
+    var modifiedArr = "";
+    var count = 1;
+    modifiedArr += arr[0]?.toString();
+    while (count < arr.length - 1) {
+      if (arr[count + 1] == arr[count] + 1) {
+        count += 1;
         continue;
-        }
-        else{
-        modifiedArr+="-"+arr[count].toString()+","+arr[count+1].toString();
-        
-        }
-        count+=1;
+      } else {
+        modifiedArr +=
+          "-" + arr[count].toString() + "," + arr[count + 1].toString();
+      }
+      count += 1;
     }
-        if(arr[count]==arr[count-1]+1)
-        modifiedArr+="-"+arr[count].toString()
-        else
-        {
-        modifiedArr+=","+arr[count].toString()
-        }
-      return modifiedArr
-
+    if (arr[count] == arr[count - 1] + 1)
+      modifiedArr += "-" + arr[count].toString();
+    else {
+      modifiedArr += "," + arr[count].toString();
     }
+    return modifiedArr;
+  };
   const formik = useFormik({
     initialValues: {
       uploadsemester: "",
@@ -126,9 +120,11 @@ const page = () => {
   const generateCLicked = (e) => {
     // console.log(formik.values);
     axios
-      .post("https://scheduler-b3ns.onrender.com/get", {})
+      .post("https://scheduler-b3ns.onrender.com/get", {
+        sem:formik.values.get_schedule_sem
+      })
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         setDisplayTable(res.data);
       })
       .catch((err) => {
