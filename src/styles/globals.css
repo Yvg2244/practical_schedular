@@ -12,3 +12,9 @@ button {
   border: 1px solid black;
   margin: 5px 10px;
 }
+button:disabled {
+  border: 1px solid #a8a3a3;
+  color:#a8a3a3;
+  margin: 5px 10px;
+  cursor:not-allowed;
+}
