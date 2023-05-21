@@ -64,6 +64,7 @@ const page = () => {
   const [createScheduleMsg, setCreateScheduleMsg] = useState("");
   const [getScheduleMsg, setGetScheduleMsg] = useState("");
   const [resetScheduleMsg, setResetScheduleMsg] = useState("");
+  const [studentLeft, setStudentLeft] = useState(0);
   const [excelFile, setExcelFile] = useState(null);
   const [excelFileErr, setExcelFileErr] = useState(null);
   const [fileData, setFileData] = useState(null);
@@ -127,12 +128,17 @@ const page = () => {
   }, [formik.errors]);
   const generateCLicked = (e) => {
     // console.log(formik.values);
+    setGetScheduleMsg("Getting Schedule")
     axios
       .post("https://scheduler-b3ns.onrender.com/get", {
         sem: formik.values.get_schedule_sem,
       })
       .then((res) => {
         console.log(res);
+        if(res.status!=200)
+          setGetScheduleMsg("Error getting schedule")
+        else
+        setGetScheduleMsg("")
         setDisplayTable(res.data);
       })
       .catch((err) => {
@@ -141,6 +147,7 @@ const page = () => {
   };
   const createCLicked = (e) => {
     console.log(formik.values);
+    setCreateScheduleMsg("Creating Schedule");
     axios
       .post("https://scheduler-b3ns.onrender.com/schedule", {
         date: formik.values.date,
@@ -151,20 +158,32 @@ const page = () => {
       })
       .then((res) => {
         console.log(res);
+        if (res.data?.msg == "done") {
+          setCreateScheduleMsg("Schedule Created Successfully");
+          setStudentLeft(res.data.totalStudentsLeft);
+        } else setCreateScheduleMsg("Error in creating Schedule");
       })
       .catch((err) => {
         console.log(err);
+        setCreateScheduleMsg("Error in creating Schedule");
       });
   };
   const resetCLicked = (e) => {
+    setResetScheduleMsg("Reseting Schedule");
+
     axios
       .post("https://scheduler-b3ns.onrender.com/reset", {
-        sem: 6,
+        sem: formik.values.reset_schedule_sem,
       })
       .then((res) => {
+        if (res.data?.msg == "done") {
+          setResetScheduleMsg("Schedule Reset Successfully");
+         
+        } else setResetScheduleMsg("Error in creating Schedule");
         console.log(res);
       })
       .catch((err) => {
+        setResetScheduleMsg("Error in creating Schedule");
         console.log(err);
       });
   };
@@ -309,6 +328,8 @@ const page = () => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
+        <div className="w-full text-green-500">{createScheduleMsg}</div>
+        <div className="w-full text-green-500">{`${studentLeft} students left`}</div>
         <div></div>
         <div>
           {formik.touched.batch_size && formik.errors.batch_size ? (
@@ -341,6 +362,8 @@ const page = () => {
           value={formik.values.name}
           onBlur={formik.handleBlur}
         />
+        <div className="w-full text-green-500">{getScheduleMsg}</div>
+        <div className="w-full text-green-500"></div>
         <div></div>
         <div>
           {formik.touched.get_schedule_sem && formik.errors.get_schedule_sem ? (
@@ -357,7 +380,24 @@ const page = () => {
           Get Schedule
         </button>
 
-        <div className="flex flex-col w-[80vw] justify-center items-center gap-[2rem]">
+        <div className="flex flex-col w-[85vw] text-center justify-center items-center px-[2rem]">
+          <div className="flex">
+            <span className="p-[1rem] w-[10rem] border-[1px] border-black text-xl font-bold">
+              Subject
+            </span>
+            <span className="p-[1rem] w-[10rem] border-[1px] border-black">
+              Date
+            </span>
+            <span className="p-[1rem] w-[6rem] border-[1px] border-black">
+              Invig.
+            </span>
+            <span className="p-[1rem] w-[6rem] border-[1px] border-black">
+              Batch
+            </span>
+            <span className="p-[1rem] w-[25rem] overflow-none border-[1px] border-black">
+              Students
+            </span>
+          </div>
           {displayTable ? (
             Object.keys(displayTable).map((item) => {
               var subject = item;
@@ -367,12 +407,12 @@ const page = () => {
               return Object.keys(subjectData).map((key) => {
                 var subjectDate = key;
                 var subjectDatePracticals = subjectData[subjectDate];
-                var curDate=subjectDate
+                var curDate = subjectDate;
                 return Object.keys(subjectDatePracticals).map((key) => {
                   var inviglatorId = key;
                   var studentsOnInviglator =
                     subjectDatePracticals[inviglatorId];
-                  var curInvig=inviglatorId
+                  var curInvig = inviglatorId;
                   return Object.keys(studentsOnInviglator).map((key) => {
                     var batch = key;
                     var studentInBatch = studentsOnInviglator[key];
@@ -396,14 +436,22 @@ const page = () => {
                       showInvig = "";
                     }
                     return (
-                      <div className=" flex justify-around gap-[4rem]">
-                        <span className="w-[5rem] font-semibold">
+                      <div className="flex">
+                        <span className="p-[1rem] w-[10rem] border-[1px] border-black text-xl font-bold">
                           {showSub}
                         </span>
-                        <span className="w-[5rem]">{showDate}</span>
-                        <span className="w-[5rem]">{showInvig}</span>
-                        <span className="w-[5rem]">{batch}</span>
-                        <span className="w-[10rem]">{arrOfStudents}</span>
+                        <span className="p-[1rem] w-[10rem] border-[1px] border-black">
+                          {showDate}
+                        </span>
+                        <span className="p-[1rem] w-[6rem] border-[1px] border-black">
+                          {showInvig}
+                        </span>
+                        <span className="p-[1rem] w-[6rem] border-[1px] border-black">
+                          {batch}
+                        </span>
+                        <span className="p-[1rem] w-[25rem] text-start overflow-none border-[1px] border-black">
+                          {arrOfStudents}
+                        </span>
                       </div>
                     );
                   });
@@ -431,6 +479,8 @@ const page = () => {
           value={formik.values.name}
           onBlur={formik.handleBlur}
         />
+        <div className="w-full text-green-500">{resetScheduleMsg}</div>
+        <div className="w-full text-green-500"></div>
         <button
           className="col-span-2 w-[15rem] items-center rounded-md p-2 font-semibold tracking-wider"
           onClick={resetCLicked}
