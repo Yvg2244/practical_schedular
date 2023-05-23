@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useFormik } from "formik";
 import * as XLSX from "xlsx";
 import axios from "axios";
@@ -126,7 +126,7 @@ const page = () => {
     if (formik.errors.hasOwnProperty("reset_schedule_sem"))
       setResetScheduleErr(true);
     else setResetScheduleErr(false);
-  }, [formik.errors]);
+  }, [formik.errors,createScheduleErr, getScheduleErr, resetScheduleErr]);
   const generateCLicked = (e) => {
     // console.log(formik.values);
     setGetScheduleMsg("Getting Schedule");
@@ -378,20 +378,21 @@ const page = () => {
           Get Schedule
         </button>
         <ReactToPrint
-          trigger={()=>{
-            return <button
-            className="col-span-2 w-[15rem] items-center rounded-md p-2 font-semibold tracking-wider"
-            >
-            Print
-          </button>
+          trigger={() => {
+            return (
+              <button className="col-span-2 w-[15rem] items-center rounded-md p-2 font-semibold tracking-wider">
+                Print
+              </button>
+            );
           }}
-          content={()=>componentRef.current}
+          content={() => componentRef.current}
           pageStyle="print"
-          />
+        />
         <div
-         ref={componentRef}
-         className="flex flex-col w-[85vw] text-center justify-center items-center px-[2rem]">
-          <div className="flex">
+          ref={componentRef}
+          className="flex flex-col w-[95vw] text-center justify-center items-center px-[2rem]"
+        >
+          <div className="flex w-full">
             <span className="p-[1rem] w-[10rem] border-[1px] border-black text-xl font-bold">
               Subject
             </span>
@@ -407,8 +408,14 @@ const page = () => {
             <span className="p-[1rem] w-[25rem] overflow-none border-[1px] border-black">
               Students
             </span>
+            <span className="p-[1rem] w-[6rem] border-[1px] border-black">
+              Lab
+            </span>
+            <span className="p-[1rem] w-[8rem] border-[1px] border-black">
+              Internal Invig.
+            </span>
           </div>
-          
+
           {displayTable ? (
             Object.keys(displayTable).map((item) => {
               var subject = item;
@@ -447,7 +454,7 @@ const page = () => {
                       showInvig = "";
                     }
                     return (
-                      <div className="flex">
+                      <div className="flex w-full">
                         <span className="p-[1rem] w-[10rem] border-[1px] border-black text-xl font-bold">
                           {subject}
                         </span>
@@ -462,6 +469,12 @@ const page = () => {
                         </span>
                         <span className="p-[1rem] w-[25rem] text-start overflow-none border-[1px] border-black">
                           {arrOfStudents}
+                        </span>
+                        <span className="p-[1rem] w-[6rem] border-[1px] border-black">
+                          
+                        </span>
+                        <span className="p-[1rem] w-[8rem] border-[1px] border-black">
+                         
                         </span>
                       </div>
                     );
