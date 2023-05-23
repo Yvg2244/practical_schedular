@@ -176,7 +176,7 @@ const Homepage = () => {
         sem: formik.values.reset_schedule_sem,
       })
       .then((res) => {
-        if (res.data?.msg == "done") {
+        if (res?.data == "done") {
           setResetScheduleMsg("Schedule Reset Successfully");
         } else setResetScheduleMsg("Error in creating Schedule");
         console.log(res);
