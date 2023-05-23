@@ -1,9 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import { useFormik } from "formik";
 import * as XLSX from "xlsx";
 import axios from "axios";
-
+import ReactToPrint from "react-to-print";
 const page = () => {
   const shortenArr = (arr) => {
     var modifiedArr = "";
@@ -20,9 +20,9 @@ const page = () => {
       count += 1;
     }
     if (arr[count] == arr[count - 1] + 1)
-      modifiedArr += "-" + arr[count].toString();
+      modifiedArr += "-" + arr[count]?.toString();
     else {
-      modifiedArr += "," + arr[count].toString();
+      modifiedArr += "," + arr[count]?.toString();
     }
     return modifiedArr;
   };
@@ -58,6 +58,7 @@ const page = () => {
   var showDate = "";
   var prevInvig = "";
   var showInvig = "";
+  const componentRef = useRef();
   const [createScheduleErr, setCreateScheduleErr] = useState(false);
   const [getScheduleErr, setGetScheduleErr] = useState(false);
   const [resetScheduleErr, setResetScheduleErr] = useState(false);
@@ -128,17 +129,15 @@ const page = () => {
   }, [formik.errors]);
   const generateCLicked = (e) => {
     // console.log(formik.values);
-    setGetScheduleMsg("Getting Schedule")
+    setGetScheduleMsg("Getting Schedule");
     axios
       .post("https://scheduler-b3ns.onrender.com/get", {
         sem: formik.values.get_schedule_sem,
       })
       .then((res) => {
         console.log(res);
-        if(res.status!=200)
-          setGetScheduleMsg("Error getting schedule")
-        else
-        setGetScheduleMsg("")
+        if (res.status != 200) setGetScheduleMsg("Error getting schedule");
+        else setGetScheduleMsg("");
         setDisplayTable(res.data);
       })
       .catch((err) => {
@@ -178,7 +177,6 @@ const page = () => {
       .then((res) => {
         if (res.data?.msg == "done") {
           setResetScheduleMsg("Schedule Reset Successfully");
-         
         } else setResetScheduleMsg("Error in creating Schedule");
         console.log(res);
       })
@@ -379,8 +377,20 @@ const page = () => {
         >
           Get Schedule
         </button>
-
-        <div className="flex flex-col w-[85vw] text-center justify-center items-center px-[2rem]">
+        <ReactToPrint
+          trigger={()=>{
+            return <button
+            className="col-span-2 w-[15rem] items-center rounded-md p-2 font-semibold tracking-wider"
+            >
+            Print
+          </button>
+          }}
+          content={()=>componentRef.current}
+          pageStyle="print"
+          />
+        <div
+         ref={componentRef}
+         className="flex flex-col w-[85vw] text-center justify-center items-center px-[2rem]">
           <div className="flex">
             <span className="p-[1rem] w-[10rem] border-[1px] border-black text-xl font-bold">
               Subject
@@ -398,6 +408,7 @@ const page = () => {
               Students
             </span>
           </div>
+          
           {displayTable ? (
             Object.keys(displayTable).map((item) => {
               var subject = item;
