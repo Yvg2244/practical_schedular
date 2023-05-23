@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import * as XLSX from "xlsx";
 import axios from "axios";
 import ReactToPrint from "react-to-print";
-const page = () => {
+const Homepage = () => {
   const shortenArr = (arr) => {
     var modifiedArr = "";
     var count = 1;
@@ -517,4 +517,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Homepage;
