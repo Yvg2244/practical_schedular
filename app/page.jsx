@@ -406,7 +406,7 @@ const Homepage = () => {
             <span className="p-[1rem] w-[10rem] border-[1px] border-black">
               Batch
             </span>
-            <span className="p-[1rem] w-[25rem] overflow-none border-[1px] border-black">
+            <span className="p-[1rem] w-[30rem] overflow-none border-[1px] border-black">
               Students
             </span>
             <span className="p-[1rem] w-[10rem] border-[1px] border-black">
@@ -468,7 +468,7 @@ const Homepage = () => {
                         <span className="p-[1rem] w-[10rem] border-[1px] border-black">
                           {batch}
                         </span>
-                        <span className="p-[1rem] w-[25rem] text-start overflow-none border-[1px] border-black">
+                        <span className="p-[1rem] w-[30rem] text-start overflow-none border-[1px] border-black">
                           {arrOfStudents}
                         </span>
                         <span className="p-[1rem] w-[10rem] border-[1px] border-black">
