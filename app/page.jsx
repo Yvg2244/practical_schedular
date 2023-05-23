@@ -52,7 +52,7 @@ const Homepage = () => {
     },
     validate,
   });
-  var count=1;
+  var c=1;
   var prevSub = "";
   var showSub = "";
   var prevDate = "";
