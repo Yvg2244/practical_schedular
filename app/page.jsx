@@ -449,13 +449,13 @@ const page = () => {
                     return (
                       <div className="flex">
                         <span className="p-[1rem] w-[10rem] border-[1px] border-black text-xl font-bold">
-                          {showSub}
+                          {subject}
                         </span>
                         <span className="p-[1rem] w-[10rem] border-[1px] border-black">
-                          {showDate}
+                          {subjectDate}
                         </span>
                         <span className="p-[1rem] w-[6rem] border-[1px] border-black">
-                          {showInvig}
+                          {inviglatorId}
                         </span>
                         <span className="p-[1rem] w-[6rem] border-[1px] border-black">
                           {batch}
