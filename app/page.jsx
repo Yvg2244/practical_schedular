@@ -7,7 +7,7 @@ import ReactToPrint from "react-to-print";
 const Homepage = () => {
   const shortenArr = (arr) => {
     var modifiedArr = "";
-    var count = 1;
+    var c = 1;
     modifiedArr += arr[0]?.toString();
     while (count < arr.length - 1) {
       if (arr[count + 1] == arr[count] + 1) {
@@ -52,6 +52,7 @@ const Homepage = () => {
     },
     validate,
   });
+  var count=1;
   var prevSub = "";
   var showSub = "";
   var prevDate = "";
@@ -435,6 +436,7 @@ const Homepage = () => {
                     var batch = key;
                     var studentInBatch = studentsOnInviglator[key];
                     var arrOfStudents = shortenArr(studentInBatch);
+                    c=c+1;
                     if (curSub != prevSub) {
                       showSub = curSub;
                       prevSub = curSub;
@@ -454,7 +456,7 @@ const Homepage = () => {
                       showInvig = "";
                     }
                     return (
-                      <div className="flex w-full">
+                      <div key={c} className="flex w-full">
                         <span className="p-[1rem] w-[10rem] border-[1px] border-black text-xl font-bold">
                           {subject}
                         </span>
