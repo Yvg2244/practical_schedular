@@ -435,7 +435,7 @@ const Homepage = () => {
                     var batch = key;
                     var studentInBatch = studentsOnInviglator[key];
                     var arrOfStudents = shortenArr(studentInBatch);
-                    setC(c+1);
+                   
                     if (curSub != prevSub) {
                       showSub = curSub;
                       prevSub = curSub;
@@ -455,7 +455,7 @@ const Homepage = () => {
                       showInvig = "";
                     }
                     return (
-                      <div key={c} className="flex w-full">
+                      <div key="1" className="flex w-full">
                         <span className="p-[1rem] w-[10rem] border-[1px] border-black text-xl font-bold">
                           {subject}
                         </span>
