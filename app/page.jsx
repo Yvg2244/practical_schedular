@@ -7,7 +7,8 @@ import ReactToPrint from "react-to-print";
 const Homepage = () => {
   const shortenArr = (arr) => {
     var modifiedArr = "";
-    var c = 1;
+    var count = 1;
+ 
     modifiedArr += arr[0]?.toString();
     while (count < arr.length - 1) {
       if (arr[count + 1] == arr[count] + 1) {
@@ -52,7 +53,6 @@ const Homepage = () => {
     },
     validate,
   });
-  var c=1;
   var prevSub = "";
   var showSub = "";
   var prevDate = "";
@@ -60,6 +60,7 @@ const Homepage = () => {
   var prevInvig = "";
   var showInvig = "";
   const componentRef = useRef();
+  const [c,setC]=useState(1);
   const [createScheduleErr, setCreateScheduleErr] = useState(false);
   const [getScheduleErr, setGetScheduleErr] = useState(false);
   const [resetScheduleErr, setResetScheduleErr] = useState(false);
@@ -129,7 +130,6 @@ const Homepage = () => {
     else setResetScheduleErr(false);
   }, [formik.errors,createScheduleErr, getScheduleErr, resetScheduleErr]);
   const generateCLicked = (e) => {
-    // console.log(formik.values);
     setGetScheduleMsg("Getting Schedule");
     axios
       .post("https://scheduler-b3ns.onrender.com/get", {
@@ -422,7 +422,6 @@ const Homepage = () => {
               var subject = item;
               var curSub = subject;
               var subjectData = displayTable[item];
-
               return Object.keys(subjectData).map((key) => {
                 var subjectDate = key;
                 var subjectDatePracticals = subjectData[subjectDate];
@@ -436,7 +435,7 @@ const Homepage = () => {
                     var batch = key;
                     var studentInBatch = studentsOnInviglator[key];
                     var arrOfStudents = shortenArr(studentInBatch);
-                    c=c+1;
+                    setC(c+1);
                     if (curSub != prevSub) {
                       showSub = curSub;
                       prevSub = curSub;
