@@ -60,6 +60,7 @@ const Homepage = () => {
   var prevInvig = "";
   var showInvig = "";
   const componentRef = useRef();
+  const componentRef2 = useRef();
   const [c,setC]=useState(1);
   const [createScheduleErr, setCreateScheduleErr] = useState(false);
   const [getScheduleErr, setGetScheduleErr] = useState(false);
@@ -268,7 +269,7 @@ const Homepage = () => {
           id="date"
           label="date"
           name="date"
-          placeholder="DDMMYYYY"
+          placeholder="DD-MM-YYYY"
           onChange={formik.handleChange}
           value={formik.values.name}
           type="text"
@@ -464,6 +465,111 @@ const Homepage = () => {
                         </span>
                         <span className="p-[1rem] w-[10rem] border-[1px] border-black">
                           {inviglatorId}
+                        </span>
+                        <span className="p-[1rem] w-[10rem] border-[1px] border-black">
+                          {batch}
+                        </span>
+                        <span className="p-[1rem] w-[30rem] text-start overflow-none border-[1px] border-black">
+                          {arrOfStudents}
+                        </span>
+                        <span className="p-[1rem] w-[10rem] border-[1px] border-black">
+                          
+                        </span>
+                        <span className="p-[1rem] w-[8rem] border-[1px] border-black">
+                         
+                        </span>
+                      </div>
+                    );
+                  });
+                });
+              });
+            })
+          ) : (
+            <></>
+          )}
+        </div>
+        <div className="w-full h-1 border-b-gray-700 my-1 border-[1px] col-span-2"></div>
+
+        <ReactToPrint
+          trigger={() => {
+            return (
+              <button className="col-span-2 w-[15rem] items-center rounded-md p-2 font-semibold tracking-wider">
+                Print for students
+              </button>
+            );
+          }}
+          content={() => componentRef2.current}
+          pageStyle="print"
+        />
+        <div
+          ref={componentRef2}
+          className="flex flex-col w-[95vw] text-center justify-center items-center px-[2rem]"
+        >
+          <div className="flex w-full">
+            <span className="p-[1rem] w-[10rem] border-[1px] border-black text-xl font-bold">
+              Subject
+            </span>
+            <span className="p-[1rem] w-[10rem] border-[1px] border-black">
+              Date
+            </span>
+            <span className="p-[1rem] w-[10rem] border-[1px] border-black">
+              Batch
+            </span>
+            <span className="p-[1rem] w-[30rem] overflow-none border-[1px] border-black">
+              Students
+            </span>
+            <span className="p-[1rem] w-[10rem] border-[1px] border-black">
+              Lab
+            </span>
+            <span className="p-[1rem] w-[8rem] border-[1px] border-black">
+              Internal Invig.
+            </span>
+          </div>
+
+          {displayTable ? (
+            Object.keys(displayTable).map((item) => {
+              var subject = item;
+              var curSub = subject;
+              var subjectData = displayTable[item];
+              return Object.keys(subjectData).map((key) => {
+                var subjectDate = key;
+                var subjectDatePracticals = subjectData[subjectDate];
+                var curDate = subjectDate;
+                return Object.keys(subjectDatePracticals).map((key) => {
+                  var inviglatorId = key;
+                  var studentsOnInviglator =
+                    subjectDatePracticals[inviglatorId];
+                  var curInvig = inviglatorId;
+                  return Object.keys(studentsOnInviglator).map((key) => {
+                    var batch = key;
+                    var studentInBatch = studentsOnInviglator[key];
+                    var arrOfStudents = shortenArr(studentInBatch);
+                   
+                    if (curSub != prevSub) {
+                      showSub = curSub;
+                      prevSub = curSub;
+                    } else {
+                      showSub = "";
+                    }
+                    if (curDate != prevDate) {
+                      showDate = curDate;
+                      prevDate = curDate;
+                    } else {
+                      showDate = "";
+                    }
+                    if (curInvig != prevInvig) {
+                      showInvig = curInvig;
+                      prevInvig = curInvig;
+                    } else {
+                      showInvig = "";
+                    }
+                    return (
+                      <div key="1" className="flex w-full">
+                        <span className="p-[1rem] w-[10rem] border-[1px] border-black text-xl font-bold">
+                          {subject}
+                        </span>
+                        <span className="p-[1rem] w-[10rem] border-[1px] border-black">
+                          {subjectDate}
                         </span>
                         <span className="p-[1rem] w-[10rem] border-[1px] border-black">
                           {batch}
