@@ -302,7 +302,7 @@ const Homepage = () => {
           id="externalId"
           name="externalId"
           label="externalId"
-          type="number"
+          type="text"
           onChange={formik.handleChange}
           value={formik.values.name}
           onBlur={formik.handleBlur}
